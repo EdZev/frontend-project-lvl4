@@ -8,7 +8,7 @@ import {
 const aStyle = {
   display: 'block',
 };
-const PageError = () => (
+const ErrorPage = () => (
   <Container fluid="sm" className="alert alert-danger">
     <Row>
       <Col>
@@ -19,4 +19,4 @@ const PageError = () => (
   </Container>
 );
 
-export default PageError;
+export default ErrorPage;

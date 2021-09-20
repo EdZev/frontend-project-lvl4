@@ -1,27 +1,58 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
+  Redirect,
 } from 'react-router-dom';
 
-import Err from './404.jsx';
-import Form from './EntranceForm.jsx';
+import Layout from './Layout.jsx';
+import ErrorPage from './ErrorPage.jsx';
+import Form from './LoginPage.jsx';
+import authContext from '../contexts/index.jsx';
+import useAuth from '../hooks/index.jsx';
 
+const AuthProvider = ({ children }) => {
+  const [loggedIn, setLoggedIn] = useState(false);
+  const logIn = () => setLoggedIn(true);
+  const logOut = () => {
+    localStorage.removeItem('userId');
+    setLoggedIn(false);
+  };
+  return (
+    <authContext.Provider value={{ loggedIn, logIn, logOut }}>
+      {children}
+    </authContext.Provider>
+  );
+};
+
+const LayoutRoute = ({ children, path }) => {
+  const auth = useAuth();
+  return (
+    <Route
+      path={path}
+      render={({ location }) => (auth.loggedIn
+        ? children
+        : <Redirect to={{ pathname: '/login', state: { from: location } }} />)}
+    />
+  );
+};
 const App = () => (
-  <Router>
-    <Switch>
-      <Route exact path="/">
-        <Form />
-      </Route>
-      <Route path="/login">
-        <Form />
-      </Route>
-      <Route path="*">
-        <Err />
-      </Route>
-    </Switch>
-  </Router>
+  <AuthProvider>
+    <Router>
+      <Switch>
+        <LayoutRoute exact path="/">
+          <Layout />
+        </LayoutRoute>
+        <Route path="/login">
+          <Form />
+        </Route>
+        <Route path="*">
+          <ErrorPage />
+        </Route>
+      </Switch>
+    </Router>
+  </AuthProvider>
 );
 
 export default App;
