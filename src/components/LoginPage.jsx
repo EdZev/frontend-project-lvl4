@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
+import { Container, Form, Button } from 'react-bootstrap';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { useHistory } from 'react-router-dom';
@@ -40,44 +40,46 @@ const LoginPage = () => {
   });
 
   return (
-    <Form onSubmit={formik.handleSubmit}>
-      <Form.Group>
-        <Form.Label htmlFor="username">Username</Form.Label>
-        <Form.Control
-          type="text"
-          placeholder="username"
-          name="username"
-          onChange={formik.handleChange}
-          value={formik.values.username}
-          id="username"
-          autoComplete="username"
-          isInvalid={authFailed}
-          required
-          ref={inputRef}
-        />
-      </Form.Group>
+    <Container>
+      <Form onSubmit={formik.handleSubmit}>
+        <Form.Group className="m-3">
+          <Form.Label htmlFor="username">Username</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="username"
+            name="username"
+            onChange={formik.handleChange}
+            value={formik.values.username}
+            id="username"
+            autoComplete="username"
+            isInvalid={authFailed}
+            required
+            ref={inputRef}
+          />
+        </Form.Group>
 
-      <Form.Group>
-        <Form.Label htmlFor="password">Password</Form.Label>
-        <Form.Control
-          type="password"
-          placeholder="password"
-          name="password"
-          id="password"
-          value={formik.values.password}
-          onChange={formik.handleChange}
-          isInvalid={authFailed}
-          required
-          ref={inputRef}
-        />
-        <Form.Control.Feedback type="invalid">
-          the username or password is incorrect
-        </Form.Control.Feedback>
-      </Form.Group>
-      <Button variant="primary" type="submit">
-        Submit
-      </Button>
-    </Form>
+        <Form.Group className="m-3">
+          <Form.Label htmlFor="password">Password</Form.Label>
+          <Form.Control
+            type="password"
+            placeholder="password"
+            name="password"
+            id="password"
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            isInvalid={authFailed}
+            required
+            ref={inputRef}
+          />
+          <Form.Control.Feedback type="invalid">
+            the username or password is incorrect
+          </Form.Control.Feedback>
+        </Form.Group>
+        <Button className="m-3" variant="primary" type="submit">
+          Submit
+        </Button>
+      </Form>
+    </Container>
   );
 };
 
