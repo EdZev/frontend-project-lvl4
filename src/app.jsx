@@ -1,10 +1,15 @@
 import React from 'react';
-import ReactDom from 'react-dom';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 
 import '../assets/application.scss';
-import App from './components/App.jsx';
+import Component from './components/App.jsx';
 
-export default () => ReactDom.render(
-  <App />,
-  document.querySelector('#chat'),
-);
+export default (store) => {
+  ReactDOM.render(
+    <Provider store={store}>
+      <Component />
+    </Provider>,
+    document.getElementById('chat'),
+  );
+};
