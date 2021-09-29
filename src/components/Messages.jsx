@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { Col } from 'react-bootstrap';
+import { Col, Form, Row, Button } from 'react-bootstrap';
 import React, { useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Formik } from 'formik';
@@ -50,18 +50,25 @@ const Messages = () => {
           handleSubmit,
           isSubmitting,
         }) => (
-          <form onSubmit={handleSubmit}>
-            <input
-              type="text"
-              name="message"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.message}
-              ref={inputText}
-            />
-            <button type="submit" disabled={values.message === '' || isSubmitting}>
-              Submit
-            </button>
+          <form onSubmit={handleSubmit} className="form-label">
+            <Row className="align-items-center">
+              <Col className="p-0">
+                <Form.Control
+                  placeholder="Your message..."
+                  type="text"
+                  name="message"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.message}
+                  ref={inputText}
+                />
+              </Col>
+              <Col xs="auto">
+                <button type="submit" disabled={values.message === '' || isSubmitting}>
+                  Go
+                </button>
+              </Col>
+            </Row>
           </form>
         )}
       </Formik>
@@ -73,7 +80,7 @@ const Messages = () => {
         <p className="m-0"><b>{`#${nameCurrentChannel}`}</b></p>
         <span className="text-mutted">{`${numberMessages} messages`}</span>
       </div>
-      <div className="chat-messages h-100 overflow-auto px-5" id="messages-box" ref={messagesField}>
+      <div className="chat-messages h-100 overflow-auto text-break px-5" id="messages-box" ref={messagesField}>
         {numberMessages > 0 && channelMessages.map((message) => buildMessage(message))}
       </div>
       <div className="mt-auto px-5 py-3">
