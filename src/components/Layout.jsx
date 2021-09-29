@@ -7,7 +7,7 @@ import {
 import axios from 'axios';
 import React, { useContext, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import authContext from '../contexts/index.jsx';
+import authContext from '../contexts/authContext.jsx';
 import Channels from './Channels.jsx';
 import Messages from './Messages.jsx';
 

@@ -4,7 +4,7 @@ import { Container, Form, Button } from 'react-bootstrap';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { useHistory } from 'react-router-dom';
-import useAuth from '../hooks/index.jsx';
+import useAuth from '../hooks/useAuth.jsx';
 
 const schema = yup.object().shape({
   username: yup.string().min(5).required(),
@@ -69,7 +69,6 @@ const LoginPage = () => {
             onChange={formik.handleChange}
             isInvalid={authFailed}
             required
-            ref={inputRef}
           />
           <Form.Control.Feedback type="invalid">
             the username or password is incorrect

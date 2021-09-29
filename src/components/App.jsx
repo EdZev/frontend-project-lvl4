@@ -9,8 +9,8 @@ import {
 import Layout from './Layout.jsx';
 import ErrorPage from './ErrorPage.jsx';
 import Form from './LoginPage.jsx';
-import authContext from '../contexts/index.jsx';
-import useAuth from '../hooks/index.jsx';
+import authContext from '../contexts/authContext.jsx';
+import useAuth from '../hooks/useAuth.jsx';
 
 const AuthProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false);

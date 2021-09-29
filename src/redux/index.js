@@ -13,17 +13,9 @@ const chatSlice = createSlice({
     setDataChannels(state, action) {
       const { channels, currentChannelId, messages } = action.payload;
       return {
-        channels: [...state.channels, ...channels],
+        channels: [...channels],
         currentChannelId,
-        messages: [...state.messages, ...messages],
-      };
-    },
-    addChannels(state, action) {
-      const { channels, currentChannelId, messages } = state;
-      return {
-        channels: [...channels, ...action.payload],
-        currentChannelId,
-        messages,
+        messages: [...messages],
       };
     },
     setCurrentChannelId(state, action) {
@@ -34,12 +26,20 @@ const chatSlice = createSlice({
         messages,
       };
     },
+    addChannels(state, action) {
+      const { channels, currentChannelId, messages } = state;
+      return {
+        channels: [...channels, action.payload],
+        currentChannelId,
+        messages,
+      };
+    },
     addMessages(state, action) {
       const { channels, currentChannelId, messages } = state;
       return {
         channels,
         currentChannelId,
-        messages: [...messages, ...action.payload],
+        messages: [...messages, action.payload],
       };
     },
   },
