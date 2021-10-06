@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const DEFAULT_CHANNEL_ID = 1;
+
 const initialState = {
   channels: [],
   currentChannelId: null,
@@ -26,15 +28,30 @@ const chatSlice = createSlice({
         messages,
       };
     },
-    addChannels(state, action) {
-      const { channels, currentChannelId, messages } = state;
+    addChannel(state, action) {
+      const { channels, messages, currentChannelId } = state;
       return {
         channels: [...channels, action.payload],
         currentChannelId,
         messages,
       };
     },
-    addMessages(state, action) {
+    renameChannel(state, action) {
+      const { id, name } = action.payload;
+      const channel = state.channels.find((c) => c.id === id);
+      channel.name = name;
+    },
+    removeChannel(state, action) {
+      const { id } = action.payload;
+      const { channels, currentChannelId, messages } = state;
+      const newCurrentChannel = (currentChannelId === id) ? DEFAULT_CHANNEL_ID : currentChannelId;
+      return {
+        currentChannelId: newCurrentChannel,
+        channels: channels.filter((channel) => channel.id !== id),
+        messages: messages.filter((message) => message.channelId !== id),
+      };
+    },
+    addMessage(state, action) {
       const { channels, currentChannelId, messages } = state;
       return {
         channels,
@@ -47,8 +64,10 @@ const chatSlice = createSlice({
 
 export const {
   setDataChannels,
-  addChannels,
+  addChannel,
+  renameChannel,
+  removeChannel,
   setCurrentChannelId,
-  addMessages,
+  addMessage,
 } = chatSlice.actions;
 export default chatSlice.reducer;

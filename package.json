@@ -8,7 +8,7 @@
     "node": "14.x"
   },
   "scripts": {
-    "test": "echo 'no tests for this project'",
+    "test": "jest --colors",
     "prebuild": "rm -rf dist",
     "build": "NODE_ENV=production npx webpack --mode production",
     "start": "node bin/slack.js"
@@ -70,6 +70,7 @@
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.23.2",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "jest": "^27.2.3",
     "node-sass": "^6.0.1",
     "nodemon": "^2.0.7",
     "postcss-loader": "^5.2.0",

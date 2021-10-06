@@ -6,11 +6,11 @@ import {
 } from 'react-bootstrap';
 import axios from 'axios';
 import React, { useContext, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import authContext from '../contexts/authContext.jsx';
-import Channels from './Channels.jsx';
+import ChannelsBox from './ChannelsBox.jsx';
 import Messages from './Messages.jsx';
 
+import store from '../redux/store.js';
 import { setDataChannels } from '../redux/index.js';
 
 const getAuthHeader = () => {
@@ -22,11 +22,10 @@ const getAuthHeader = () => {
 };
 
 const Layout = () => {
-  const dispatch = useDispatch();
   useEffect(() => {
     axios.get('/api/v1/data', { headers: getAuthHeader() })
       .then(({ data }) => {
-        dispatch(setDataChannels(data));
+        store.dispatch(setDataChannels(data));
       })
       .catch((err) => {
         throw err;
@@ -51,7 +50,7 @@ const Layout = () => {
       </Navbar>
       <Container className="h-100 my-4 overflow-hidden rounded shadow">
         <Row className="h-100 bg-white flex-md-row">
-          <Channels />
+          <ChannelsBox />
           <Messages />
         </Row>
       </Container>

@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { Col, Form, Row, Button } from 'react-bootstrap';
+import { Col, Form, Row } from 'react-bootstrap';
 import React, { useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Formik } from 'formik';
@@ -64,7 +64,7 @@ const Messages = () => {
                 />
               </Col>
               <Col xs="auto">
-                <button type="submit" disabled={values.message === '' || isSubmitting}>
+                <button className="fs-5 rounded" type="submit" disabled={values.message === '' || isSubmitting}>
                   Go
                 </button>
               </Col>
