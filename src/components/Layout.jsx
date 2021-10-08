@@ -5,8 +5,10 @@ import {
   Row,
 } from 'react-bootstrap';
 import axios from 'axios';
-import React, { useContext, useEffect } from 'react';
-import authContext from '../contexts/authContext.jsx';
+import React, { useEffect } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import useAuth from '../hooks/useAuth.jsx';
+import routes from '../routes.js';
 import ChannelsBox from './ChannelsBox.jsx';
 import Messages from './Messages.jsx';
 
@@ -22,8 +24,9 @@ const getAuthHeader = () => {
 };
 
 const Layout = () => {
+  const auth = useAuth();
   useEffect(() => {
-    axios.get('/api/v1/data', { headers: getAuthHeader() })
+    axios.get(routes.dataPath(), { headers: getAuthHeader() })
       .then(({ data }) => {
         store.dispatch(setDataChannels(data));
       })
@@ -33,15 +36,21 @@ const Layout = () => {
   }, []);
 
   const AuthButton = () => {
-    const auth = useContext(authContext);
-    return (<Button onClick={auth.logOut}>Log out</Button>);
+    const history = useHistory();
+    const onLogOut = () => {
+      auth.logOut();
+      history.push(routes.rootPath());
+    };
+    return (<Button onClick={onLogOut}>Log out</Button>);
   };
 
   return (
     <div className="d-flex flex-column h-100 py-0">
       <Navbar className="border-bottom bg-white shadow-1 px-0 ">
         <Container>
-          <Navbar.Brand>Ed&#39;s chat</Navbar.Brand>
+          <Navbar.Brand to={routes.rootPath()} as={Link}>
+            Hexlet Chat
+          </Navbar.Brand>
           <Navbar.Toggle />
           <Navbar.Collapse className="justify-content-end">
             <AuthButton />

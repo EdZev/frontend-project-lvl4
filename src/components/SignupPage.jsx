@@ -8,8 +8,9 @@ import useAuth from '../hooks/useAuth.jsx';
 import routes from '../routes.js';
 
 const schema = yup.object().shape({
-  username: yup.string().min(3).required(),
-  password: yup.string().required(),
+  username: yup.string().min(3).max(20).required(),
+  password: yup.string().min(6).required(),
+  confirmPass: yup.string().oneOf([yup.ref('password')], 'passwords must match'),
 });
 
 const LoginPage = () => {
@@ -25,22 +26,27 @@ const LoginPage = () => {
     initialValues: {
       username: '',
       password: '',
+      confirmPass: '',
     },
     onSubmit: async (values) => {
+      const { username, password } = values;
       try {
         await schema.validate(values);
         setAuthFailed({ status: false, errors: '' });
-        const { data } = await axios.post(routes.loginPath(), values);
+        const { data } = await axios.post(routes.signupPath(), { username, password });
         localStorage.setItem('userId', JSON.stringify(data));
         auth.logIn();
-        history.replace({ pathname: '/' });
+        history.replace({ pathname: routes.rootPath() });
       } catch (e) {
         const errorMessage = () => {
           if (e.errors) {
             return e.errors.join(', ');
           }
           if (e.request.status === 401) {
-            return 'There is no such user, please register';
+            return 'Username or password is invalid';
+          }
+          if (e.request.status === 409) {
+            return 'This nickname is already taken';
           }
           return 'Something went wrong, please try again later :(';
         };
@@ -82,6 +88,19 @@ const LoginPage = () => {
               isInvalid={authFailed.status}
               required
             />
+          </Form.Group>
+          <Form.Group className="m-3">
+            <Form.Label htmlFor="confirmPass">Password again</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="password again"
+              name="confirmPass"
+              id="confirmPass"
+              value={formik.values.passConfirm}
+              onChange={formik.handleChange}
+              isInvalid={authFailed.status}
+              required
+            />
             <Form.Control.Feedback type="invalid">
               {authFailed.errors}
             </Form.Control.Feedback>
@@ -91,9 +110,8 @@ const LoginPage = () => {
           </Button>
         </Form>
       </Modal.Body>
-
       <Modal.Footer>
-        <a href="/signup">Регистрация</a>
+        <a href="/login">Войти</a>
       </Modal.Footer>
     </Modal.Dialog>
   );

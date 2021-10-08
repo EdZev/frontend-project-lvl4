@@ -8,7 +8,8 @@ import {
 
 import Layout from './Layout.jsx';
 import ErrorPage from './ErrorPage.jsx';
-import Form from './LoginPage.jsx';
+import Login from './LoginPage.jsx';
+import Signup from './SignupPage.jsx';
 import authContext from '../contexts/authContext.jsx';
 import useAuth from '../hooks/useAuth.jsx';
 
@@ -45,7 +46,10 @@ const App = () => (
           <Layout />
         </LayoutRoute>
         <Route path="/login">
-          <Form />
+          <Login />
+        </Route>
+        <Route path="/signup">
+          <Signup />
         </Route>
         <Route path="*">
           <ErrorPage />
