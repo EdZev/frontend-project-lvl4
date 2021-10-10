@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
   Navbar,
   Container,
@@ -9,6 +10,8 @@ import {
 import routes from '../routes';
 
 const ErrorPage = () => {
+  const { t } = useTranslation();
+
   const aStyle = {
     display: 'block',
   };
@@ -18,7 +21,7 @@ const ErrorPage = () => {
       <Navbar className="border-bottom bg-white shadow-1 px-0 ">
         <Container>
           <Navbar.Brand to={routes.rootPath()} as={Link}>
-            Hexlet Chat
+            {t('projectName')}
           </Navbar.Brand>
           <Navbar.Toggle />
         </Container>
@@ -26,8 +29,8 @@ const ErrorPage = () => {
       <Container className="h-100 my-4 overflow-hidden rounded shadow">
         <Row className="h-100 bg-white flex-md-row">
           <Col>
-            <h1 className="text-center">No such page Err.404</h1>
-            <a className="text-center" style={aStyle} href="/">Home Page</a>
+            <h1 className="text-center">{t('errors.notFoundPage')}</h1>
+            <a className="text-center" style={aStyle} href="/">{t('homePage')}</a>
           </Col>
         </Row>
       </Container>

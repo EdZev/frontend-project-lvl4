@@ -1,16 +1,13 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { Modal, Form } from 'react-bootstrap';
-import useServer from '../../hooks/useServer.jsx';
+import { useTranslation } from 'react-i18next';
+import useServer from '../../hooks/useServer.js';
 
 const ModalRemoveChannel = (props) => {
   const { hideModal, modalInfo } = props;
-  const server = useServer();
   const { id } = modalInfo;
-
-  const inputField = useRef();
-  useEffect(() => {
-    inputField.current.focus();
-  });
+  const { t } = useTranslation();
+  const server = useServer();
 
   const remove = (e) => {
     e.preventDefault();
@@ -24,11 +21,15 @@ const ModalRemoveChannel = (props) => {
   return (
     <Modal show onHide={hideModal}>
       <Modal.Header closeButton>
-        <Modal.Title>Remove Channel</Modal.Title>
+        <Modal.Title>{t('modals.removeChannel')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        <p className="lead">Уверены?</p>
         <Form onSubmit={remove}>
-          <input className="btn btn-danger mt-2" ref={inputField} type="submit" value="submit" />
+          <div className="text-end">
+            <button className="btn btn-secondary m-2" type="button" onClick={hideModal}>{t('modals.cancel')}</button>
+            <button className="btn btn-primary m-2" type="submit">{t('modals.removing')}</button>
+          </div>
         </Form>
       </Modal.Body>
     </Modal>

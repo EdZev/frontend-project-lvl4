@@ -7,12 +7,14 @@ import {
 
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import cn from 'classnames';
 import store from '../redux/store.js';
 import { setCurrentChannelId } from '../redux/index.js';
 import getModals from './modals/index.js';
 
 const Channel = (props) => {
+  const { t } = useTranslation();
   const {
     data,
     currentChannelId,
@@ -36,8 +38,8 @@ const Channel = (props) => {
         <>
           <Dropdown.Toggle aria-haspopup="true" split variant={buttonStyle} className="flex-grow-0 my-1 rounded-end" />
           <Dropdown.Menu>
-            <Dropdown.Item onClick={() => showModal('renaming', id)}>Переименовать</Dropdown.Item>
-            <Dropdown.Item onClick={() => showModal('removing', id)}>Удалить</Dropdown.Item>
+            <Dropdown.Item onClick={() => showModal('renaming', id)}>{t('channel.rename')}</Dropdown.Item>
+            <Dropdown.Item onClick={() => showModal('removing', id)}>{t('channel.remove')}</Dropdown.Item>
           </Dropdown.Menu>
         </>
       ))}
@@ -72,6 +74,7 @@ const renderModal = ({ hideModal, modalInfo, channels }) => {
 };
 
 const ChannelsBox = () => {
+  const { t } = useTranslation();
   const [modalInfo, setModalInfo] = useState({ type: null, id: null });
   const { channels, currentChannelId } = useSelector((state) => state.chat);
   const hideModal = () => setModalInfo({ type: null, id: null });
@@ -79,7 +82,7 @@ const ChannelsBox = () => {
   return (
     <Col className="col-4 col-md-2 border-end pt-5 px-0">
       <div className="d-flex justify-content-between mb-2 ps-4 pe-2 align-text-bottom">
-        <span className="fs-3">Каналы</span>
+        <span className="fs-3">{t('channels')}</span>
         <Button className="border" variant="light" onClick={() => showModal('adding')}>+</Button>
       </div>
       <Channels

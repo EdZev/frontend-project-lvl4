@@ -4,15 +4,17 @@ import { Form, Button, Modal } from 'react-bootstrap';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { useHistory } from 'react-router-dom';
-import useAuth from '../hooks/useAuth.jsx';
+import { useTranslation } from 'react-i18next';
+import useAuth from '../hooks/useAuth.js';
 import routes from '../routes.js';
 
 const schema = yup.object().shape({
-  username: yup.string().min(3).required(),
+  username: yup.string().required(),
   password: yup.string().required(),
 });
 
 const LoginPage = () => {
+  const { t } = useTranslation();
   const [authFailed, setAuthFailed] = useState({ status: false, errors: '' });
   const history = useHistory();
   const auth = useAuth();
@@ -33,16 +35,16 @@ const LoginPage = () => {
         const { data } = await axios.post(routes.loginPath(), values);
         localStorage.setItem('userId', JSON.stringify(data));
         auth.logIn();
-        history.replace({ pathname: '/' });
+        history.replace({ pathname: routes.rootPath() });
       } catch (e) {
         const errorMessage = () => {
           if (e.errors) {
             return e.errors.join(', ');
           }
           if (e.request.status === 401) {
-            return 'There is no such user, please register';
+            return t('errors.userNoExist');
           }
-          return 'Something went wrong, please try again later :(';
+          return t('errors.defaultError');
         };
         setAuthFailed({ status: true, errors: errorMessage() });
       }
@@ -55,10 +57,10 @@ const LoginPage = () => {
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit}>
           <Form.Group className="m-3">
-            <Form.Label htmlFor="username">Username</Form.Label>
+            <Form.Label htmlFor="username">{t('authForm.name')}</Form.Label>
             <Form.Control
               type="text"
-              placeholder="username"
+              placeholder={t('authForm.placeholderName')}
               name="username"
               onChange={formik.handleChange}
               value={formik.values.username}
@@ -71,10 +73,10 @@ const LoginPage = () => {
           </Form.Group>
 
           <Form.Group className="m-3">
-            <Form.Label htmlFor="password">Password</Form.Label>
+            <Form.Label htmlFor="password">{t('authForm.pass')}</Form.Label>
             <Form.Control
               type="password"
-              placeholder="password"
+              placeholder={t('authForm.placeholderPass')}
               name="password"
               id="password"
               value={formik.values.password}
@@ -87,13 +89,13 @@ const LoginPage = () => {
             </Form.Control.Feedback>
           </Form.Group>
           <Button className="m-3" variant="primary" type="submit">
-            Submit
+            {t('authForm.login')}
           </Button>
         </Form>
       </Modal.Body>
 
       <Modal.Footer>
-        <a href="/signup">Регистрация</a>
+        <a href="/signup">{t('authForm.signup')}</a>
       </Modal.Footer>
     </Modal.Dialog>
   );

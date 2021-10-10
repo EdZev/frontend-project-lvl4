@@ -1,11 +1,13 @@
 import _ from 'lodash';
 import { Col, Form, Row } from 'react-bootstrap';
 import React, { useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { Formik } from 'formik';
-import useServer from '../hooks/useServer.jsx';
+import useServer from '../hooks/useServer.js';
 
 const Messages = () => {
+  const { t } = useTranslation();
   const { channels, currentChannelId, messages } = useSelector((state) => state.chat);
   const indexCurrentChannel = _.findIndex(channels, ({ id }) => id === currentChannelId);
   const nameCurrentChannel = (indexCurrentChannel >= 0) ? channels[indexCurrentChannel].name : '';
@@ -54,7 +56,7 @@ const Messages = () => {
             <Row className="align-items-center">
               <Col className="p-0">
                 <Form.Control
-                  placeholder="Your message..."
+                  placeholder={t('messages')}
                   type="text"
                   name="message"
                   onChange={handleChange}

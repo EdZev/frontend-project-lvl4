@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 
-import serverContext from '../contexts/serverContext.jsx';
+import serverContext from '../contexts/serverContext.js';
 
 const useServer = () => useContext(serverContext);
 

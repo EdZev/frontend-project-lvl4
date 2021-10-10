@@ -7,7 +7,8 @@ import {
 import axios from 'axios';
 import React, { useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import useAuth from '../hooks/useAuth.jsx';
+import { useTranslation } from 'react-i18next';
+import useAuth from '../hooks/useAuth.js';
 import routes from '../routes.js';
 import ChannelsBox from './ChannelsBox.jsx';
 import Messages from './Messages.jsx';
@@ -24,6 +25,7 @@ const getAuthHeader = () => {
 };
 
 const Layout = () => {
+  const { t } = useTranslation();
   const auth = useAuth();
   useEffect(() => {
     axios.get(routes.dataPath(), { headers: getAuthHeader() })
@@ -41,7 +43,7 @@ const Layout = () => {
       auth.logOut();
       history.push(routes.rootPath());
     };
-    return (<Button onClick={onLogOut}>Log out</Button>);
+    return (<Button onClick={onLogOut}>{t('authForm.logout')}</Button>);
   };
 
   return (
@@ -49,7 +51,7 @@ const Layout = () => {
       <Navbar className="border-bottom bg-white shadow-1 px-0 ">
         <Container>
           <Navbar.Brand to={routes.rootPath()} as={Link}>
-            Hexlet Chat
+            {t('projectName')}
           </Navbar.Brand>
           <Navbar.Toggle />
           <Navbar.Collapse className="justify-content-end">
