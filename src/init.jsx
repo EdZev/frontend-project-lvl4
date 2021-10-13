@@ -17,12 +17,9 @@ import {
 import resources from './locales/index.js';
 
 export default async (socket) => {
-  const rollbar = new Rollbar();
-  rollbar.configure({
-    accessToken: '20ae51a356f144fda5ba19fc97d7c114',
-    captureUncaught: true,
-    captureUnhandledRejections: true,
-  });
+  const rollbar = new Rollbar({ accessToken: '20ae51a356f144fda5ba19fc97d7c114' });
+  rollbar.configure.captureUncaught = true;
+  rollbar.configure.captureUnhandledRejections = true;
 
   await i18n
     .use(initReactI18next)
