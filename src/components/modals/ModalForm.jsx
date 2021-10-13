@@ -40,7 +40,7 @@ const ModalForm = (props) => {
 
   const formik = useFormik({
     initialValues: { name: inputValue[type]() },
-    onSubmit: async (values) => {
+    onSubmit: async (values, { setSubmitting }) => {
       const { name } = values;
       try {
         await channelSchema.validate(values);
@@ -54,6 +54,7 @@ const ModalForm = (props) => {
           }
           return t('errors.defaultError');
         };
+        setSubmitting(false);
         inputField.current.select();
         setAuthFailed({ status: true, errors: errorMessage() });
       }
@@ -69,6 +70,7 @@ const ModalForm = (props) => {
           onChange={formik.handleChange}
           ref={inputField}
           required
+          disabled={formik.isSubmitting}
           isInvalid={authFailed.status}
         />
         <Form.Control.Feedback type="invalid">
@@ -76,8 +78,8 @@ const ModalForm = (props) => {
         </Form.Control.Feedback>
       </Form.Group>
       <div className="text-end">
-        <button className="btn btn-secondary m-2" type="button" onClick={hideModal}>{t('modals.cancel')}</button>
-        <button className="btn btn-primary m-2" type="submit">{t(`modals.${type}`)}</button>
+        <button className="btn btn-secondary m-2" disabled={formik.isSubmitting} type="button" onClick={hideModal}>{t('modals.cancel')}</button>
+        <button className="btn btn-primary m-2" disabled={formik.isSubmitting} type="submit">{t(`modals.${type}`)}</button>
       </div>
     </Form>
   );

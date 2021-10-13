@@ -15,7 +15,9 @@ import authContext from '../contexts/authContext.js';
 import useAuth from '../hooks/useAuth.js';
 
 const AuthProvider = ({ children }) => {
-  const isLogged = !!localStorage.getItem('userId');
+  const data = localStorage.getItem('userId');
+  const userData = data ? JSON.parse(data) : { username: null, token: null };
+  const isLogged = userData.username !== null && userData.token !== null;
   const [loggedIn, setLoggedIn] = useState(isLogged);
   const logIn = () => setLoggedIn(true);
   const logOut = () => {

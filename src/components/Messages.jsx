@@ -61,6 +61,7 @@ const Messages = () => {
                   type="text"
                   name="message"
                   onChange={handleChange}
+                  disabled={isSubmitting}
                   onBlur={handleBlur}
                   value={values.message}
                   ref={inputText}
