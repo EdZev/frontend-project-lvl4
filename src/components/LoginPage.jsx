@@ -51,6 +51,8 @@ const LoginPage = () => {
     },
   });
 
+  const logClick = () => console.log('was click!');
+
   return (
     <Modal.Dialog>
 
@@ -95,7 +97,7 @@ const LoginPage = () => {
       </Modal.Body>
 
       <Modal.Footer>
-        <a href="/signup">{t('authForm.linkSignup')}</a>
+        <a href="/signup" onClick={logClick}>{t('authForm.linkSignup')}</a>
       </Modal.Footer>
     </Modal.Dialog>
   );
