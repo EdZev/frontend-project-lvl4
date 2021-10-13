@@ -7,7 +7,7 @@ export default {
       loginName: 'Ваш ник',
       signupName: 'Имя пользователя',
       placeholderName: 'От 3 до 20 символов',
-      pass: 'Ваш пароль',
+      pass: 'Пароль',
       placeholderPass: 'Не менее 6 символов',
       confirmPass: 'Подтвердите пароль',
       placeholderConfirmPass: 'ваш пароль еще раз...',
