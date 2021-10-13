@@ -28,6 +28,7 @@ const ModalRenameChannel = (props) => {
           modalInfo={modalInfo}
           channels={channels}
           dataSubmit={dataSubmit}
+          testid="rename-channel"
         />
       </Modal.Body>
     </Modal>

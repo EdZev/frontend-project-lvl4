@@ -10,6 +10,7 @@ const ModalForm = (props) => {
     modalInfo,
     channels,
     dataSubmit,
+    testid,
   } = props;
   const { type, id } = modalInfo;
   const { t } = useTranslation();
@@ -62,7 +63,7 @@ const ModalForm = (props) => {
     <Form onSubmit={formik.handleSubmit}>
       <Form.Group>
         <Form.Control
-          data-testid="input-body"
+          data-testid={testid}
           name="name"
           value={formik.values.name}
           onChange={formik.handleChange}

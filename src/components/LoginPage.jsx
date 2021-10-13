@@ -57,7 +57,7 @@ const LoginPage = () => {
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit}>
           <Form.Group className="m-3">
-            <Form.Label htmlFor="username">{t('authForm.name')}</Form.Label>
+            <Form.Label htmlFor="username">{t('authForm.loginName')}</Form.Label>
             <Form.Control
               type="text"
               placeholder={t('authForm.placeholderName')}

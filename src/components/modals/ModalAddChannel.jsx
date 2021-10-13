@@ -31,6 +31,7 @@ const ModalAddChannel = (props) => {
           modalInfo={modalInfo}
           channels={channels}
           dataSubmit={dataSubmit}
+          testid="add-channel"
         />
       </Modal.Body>
     </Modal>

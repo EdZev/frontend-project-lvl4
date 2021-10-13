@@ -56,6 +56,7 @@ const Messages = () => {
             <Row className="align-items-center">
               <Col className="p-0">
                 <Form.Control
+                  data-testid="new-message"
                   placeholder={t('messages')}
                   type="text"
                   name="message"
