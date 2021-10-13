@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Form, Button, Modal } from 'react-bootstrap';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import useAuth from '../hooks/useAuth.js';
 import routes from '../routes.js';
@@ -51,8 +51,6 @@ const LoginPage = () => {
     },
   });
 
-  const logClick = () => console.log('was click!');
-
   return (
     <Modal.Dialog>
 
@@ -97,7 +95,7 @@ const LoginPage = () => {
       </Modal.Body>
 
       <Modal.Footer>
-        <a href="/signup" onClick={logClick}>{t('authForm.linkSignup')}</a>
+        <Link to="/signup">{t('authForm.linkSignup')}</Link>
       </Modal.Footer>
     </Modal.Dialog>
   );
