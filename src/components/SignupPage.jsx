@@ -120,7 +120,7 @@ const LoginPage = () => {
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <a href="/login">{t('authForm.login')}</a>
+        <a href="/login">{t('authForm.linkLogin')}</a>
       </Modal.Footer>
     </Modal.Dialog>
   );

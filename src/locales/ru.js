@@ -11,6 +11,8 @@ export default {
       placeholderPass: 'Не менее 6 символов',
       confirmPass: 'Подтвердите пароль',
       placeholderConfirmPass: 'ваш пароль еще раз...',
+      linkLogin: 'Вход',
+      linkSignup: 'Регистрация',
       login: 'Войти',
       signup: 'Зарегистрироваться',
       logout: 'Выйти',

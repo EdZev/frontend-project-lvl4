@@ -95,7 +95,7 @@ const LoginPage = () => {
       </Modal.Body>
 
       <Modal.Footer>
-        <a href="/signup">{t('authForm.signup')}</a>
+        <a href="/signup">{t('authForm.linkSignup')}</a>
       </Modal.Footer>
     </Modal.Dialog>
   );
