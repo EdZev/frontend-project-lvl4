@@ -6,15 +6,17 @@ import {
   Redirect,
 } from 'react-router-dom';
 
-import Layout from './Layout.jsx';
+import Chat from './Chat.jsx';
 import ErrorPage from './ErrorPage.jsx';
 import Login from './LoginPage.jsx';
 import Signup from './SignupPage.jsx';
+import Nav from './Nav.jsx';
 import authContext from '../contexts/authContext.js';
 import useAuth from '../hooks/useAuth.js';
 
 const AuthProvider = ({ children }) => {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const isLogged = !!localStorage.getItem('userId');
+  const [loggedIn, setLoggedIn] = useState(isLogged);
   const logIn = () => setLoggedIn(true);
   const logOut = () => {
     localStorage.removeItem('userId');
@@ -41,20 +43,23 @@ const LayoutRoute = ({ children, path }) => {
 const App = () => (
   <AuthProvider>
     <Router>
-      <Switch>
-        <LayoutRoute exact path="/">
-          <Layout />
-        </LayoutRoute>
-        <Route path="/login">
-          <Login />
-        </Route>
-        <Route path="/signup">
-          <Signup />
-        </Route>
-        <Route path="*">
-          <ErrorPage />
-        </Route>
-      </Switch>
+      <div className="d-flex flex-column h-100 py-0">
+        <Nav />
+        <Switch>
+          <LayoutRoute exact path="/">
+            <Chat />
+          </LayoutRoute>
+          <Route path="/login">
+            <Login />
+          </Route>
+          <Route path="/signup">
+            <Signup />
+          </Route>
+          <Route>
+            <ErrorPage />
+          </Route>
+        </Switch>
+      </div>
     </Router>
   </AuthProvider>
 );

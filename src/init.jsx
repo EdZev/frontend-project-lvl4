@@ -1,9 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import i18n from 'i18next';
 import { initReactI18next, I18nextProvider } from 'react-i18next';
 import { Provider } from 'react-redux';
-import { io } from 'socket.io-client';
+import Rollbar from 'rollbar';
 
 import '../assets/application.scss';
 import ServerContext from './contexts/serverContext.js';
@@ -17,7 +16,13 @@ import {
 } from './redux/index.js';
 import resources from './locales/index.js';
 
-export default async () => {
+export default async (socket) => {
+  const rollbar = new Rollbar({
+    accessToken: '20ae51a356f144fda5ba19fc97d7c114',
+    captureUncaught: true,
+    captureUnhandledRejections: true,
+  });
+  rollbar.log('Hello world!');
   await i18n
     .use(initReactI18next)
     .init({
@@ -29,7 +34,6 @@ export default async () => {
       },
     });
 
-  const socket = io();
   socket.on('newMessage', (message) => {
     store.dispatch(addMessage(message));
   });
@@ -48,14 +52,13 @@ export default async () => {
     renameChannel: (data, acknowledge) => socket.emit('renameChannel', data, acknowledge),
     removeChannel: (id, acknowledge) => socket.emit('removeChannel', id, acknowledge),
   };
-  ReactDOM.render(
+  return (
     <I18nextProvider i18n={i18n}>
       <Provider store={store}>
         <ServerContext.Provider value={serverContextValues}>
           <App />
         </ServerContext.Provider>
       </Provider>
-    </I18nextProvider>,
-    document.getElementById('chat'),
+    </I18nextProvider>
   );
 };
