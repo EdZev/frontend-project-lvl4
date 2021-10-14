@@ -78,8 +78,8 @@ const ModalForm = (props) => {
         </Form.Control.Feedback>
       </Form.Group>
       <div className="text-end">
-        <Button role="button" className="btn btn-secondary m-2" disabled={formik.isSubmitting} type="button" onClick={hideModal}>{t('modals.cancel')}</Button>
-        <Button role="button" className="btn btn-primary m-2" disabled={formik.isSubmitting} type="submit">{t(`modals.${type}`)}</Button>
+        <Button role="button" name={t('modals.cancel')} className="btn btn-secondary m-2" disabled={formik.isSubmitting} type="button" onClick={hideModal}>{t('modals.cancel')}</Button>
+        <Button role="button" name={t('modals.send')} className="btn btn-primary m-2" disabled={formik.isSubmitting} type="submit">{t('modals.send')}</Button>
       </div>
     </Form>
   );

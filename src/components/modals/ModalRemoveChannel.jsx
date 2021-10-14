@@ -27,8 +27,8 @@ const ModalRemoveChannel = (props) => {
         <p className="lead">Уверены?</p>
         <Form onSubmit={remove}>
           <div className="text-end">
-            <Button role="button" className="btn btn-secondary m-2" type="button" onClick={hideModal}>{t('modals.cancel')}</Button>
-            <Button role="button" className="btn btn-danger m-2" type="submit">{t('modals.removing')}</Button>
+            <Button role="button" name={t('modals.cancel')} className="btn btn-secondary m-2" type="button" onClick={hideModal}>{t('modals.cancel')}</Button>
+            <Button role="button" name={t('modals.removing')} className="btn btn-danger m-2" type="submit">{t('modals.removing')}</Button>
           </div>
         </Form>
       </Modal.Body>
