@@ -27,6 +27,8 @@ const Channel = (props) => {
   return (
     <Dropdown key={id} as={ButtonGroup}>
       <Button
+        role="button"
+        name={name}
         className={channelClassNames}
         variant={buttonStyle}
         onClick={() => store.dispatch(setCurrentChannelId(id))}
