@@ -68,7 +68,7 @@ const Messages = () => {
                 />
               </Col>
               <Col xs="auto">
-                <button className="fs-5 rounded" type="submit" disabled={values.message === '' || isSubmitting}>
+                <button className="fs-5 rounded" name="Отправить" type="submit" disabled={values.message === '' || isSubmitting}>
                   Go
                 </button>
               </Col>
