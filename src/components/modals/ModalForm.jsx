@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
-import { Form } from 'react-bootstrap';
+import { Form, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
 const ModalForm = (props) => {
@@ -78,8 +78,8 @@ const ModalForm = (props) => {
         </Form.Control.Feedback>
       </Form.Group>
       <div className="text-end">
-        <button className="btn btn-secondary m-2" disabled={formik.isSubmitting} type="button" onClick={hideModal}>{t('modals.cancel')}</button>
-        <button className="btn btn-primary m-2" disabled={formik.isSubmitting} type="submit">{t(`modals.${type}`)}</button>
+        <Button role="button" className="btn btn-secondary m-2" disabled={formik.isSubmitting} type="button" onClick={hideModal}>{t('modals.cancel')}</Button>
+        <Button role="button" className="btn btn-primary m-2" disabled={formik.isSubmitting} type="submit">{t(`modals.${type}`)}</Button>
       </div>
     </Form>
   );

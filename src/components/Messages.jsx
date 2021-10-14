@@ -42,7 +42,6 @@ const Messages = () => {
       <Formik
         initialValues={{ message: '' }}
         onSubmit={({ message }, { resetForm, setSubmitting }) => {
-          console.log('was click and sabbmit!!!!');
           const newMessage = { channelId: currentChannelId, username: userId.username, message };
           server.newMessage(newMessage, ({ status }) => {
             if (status === 'ok') {
