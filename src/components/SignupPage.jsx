@@ -4,7 +4,7 @@ import { Form, Button, Modal } from 'react-bootstrap';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import useAuth from '../hooks/useAuth.js';
 import routes from '../routes.js';
 
@@ -25,7 +25,7 @@ const schema = yup.object().shape({
 
 const LoginPage = () => {
   const { t } = useTranslation();
-  const [authFailed, setAuthFailed] = useState({ status: false, errors: '' });
+  const [authFailed, setAuthFailed] = useState(null);
   const history = useHistory();
   const auth = useAuth();
   const inputRef = useRef();
@@ -39,27 +39,24 @@ const LoginPage = () => {
       password: '',
       confirmPass: '',
     },
-    onSubmit: async (values) => {
+    validationSchema: schema,
+    onSubmit: async (values, { setSubmitting }) => {
       const { username, password } = values;
       try {
-        await schema.validate(values);
-        setAuthFailed({ status: false, errors: '' });
         const { data } = await axios.post(routes.signupPath(), { username, password });
         localStorage.setItem('userId', JSON.stringify(data));
         auth.logIn();
+        setSubmitting(false);
         history.replace({ pathname: routes.rootPath() });
       } catch (e) {
+        setSubmitting(false);
         const errorMessage = () => {
-          if (e.errors) {
-            const [errMessage] = e.errors;
-            return t(errMessage);
-          }
           if (e.request.status === 409) {
             return t('errors.userExist');
           }
           return t('errors.defaultError');
         };
-        setAuthFailed({ status: true, errors: errorMessage() });
+        setAuthFailed(errorMessage());
       }
     },
   });
@@ -75,14 +72,18 @@ const LoginPage = () => {
               type="text"
               placeholder={t('authForm.placeholderName')}
               name="username"
+              disabled={formik.isSubmitting}
               onChange={formik.handleChange}
               value={formik.values.username}
               id="username"
               autoComplete="username"
-              isInvalid={authFailed.status}
+              isInvalid={(formik.errors.username && formik.touched.username) || authFailed}
               required
               ref={inputRef}
             />
+            <Form.Control.Feedback type="invalid">
+              {t(formik.errors.username)}
+            </Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group className="m-3">
@@ -92,11 +93,15 @@ const LoginPage = () => {
               placeholder={t('authForm.placeholderPass')}
               name="password"
               id="password"
+              disabled={formik.isSubmitting}
               value={formik.values.password}
               onChange={formik.handleChange}
-              isInvalid={authFailed.status}
+              isInvalid={(formik.errors.password && formik.touched.password) || authFailed}
               required
             />
+            <Form.Control.Feedback type="invalid">
+              {t(formik.errors.password)}
+            </Form.Control.Feedback>
           </Form.Group>
           <Form.Group className="m-3">
             <Form.Label htmlFor="confirmPass">{t('authForm.confirmPass')}</Form.Label>
@@ -105,22 +110,23 @@ const LoginPage = () => {
               placeholder={t('authForm.placeholderConfirmPass')}
               name="confirmPass"
               id="confirmPass"
-              value={formik.values.passConfirm}
+              disabled={formik.isSubmitting}
+              value={formik.values.confirmPass}
               onChange={formik.handleChange}
-              isInvalid={authFailed.status}
+              isInvalid={(formik.errors.confirmPass && formik.touched.confirmPass) || authFailed}
               required
             />
             <Form.Control.Feedback type="invalid">
-              {authFailed.errors}
+              {t(formik.errors.confirmPass) || authFailed}
             </Form.Control.Feedback>
           </Form.Group>
-          <Button className="m-3" variant="primary" type="submit">
+          <Button className="m-3" variant="primary" type="submit" disabled={formik.isSubmitting}>
             {t('authForm.signup')}
           </Button>
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <a href="/login">{t('authForm.linkLogin')}</a>
+        <Link to="/login">{t('authForm.linkLogin')}</Link>
       </Modal.Footer>
     </Modal.Dialog>
   );

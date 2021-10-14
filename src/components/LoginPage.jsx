@@ -15,7 +15,7 @@ const schema = yup.object().shape({
 
 const LoginPage = () => {
   const { t } = useTranslation();
-  const [authFailed, setAuthFailed] = useState({ status: false, errors: '' });
+  const [authFailed, setAuthFailed] = useState(false);
   const history = useHistory();
   const auth = useAuth();
   const inputRef = useRef();
@@ -28,25 +28,24 @@ const LoginPage = () => {
       username: '',
       password: '',
     },
-    onSubmit: async (values) => {
+
+    validationSchema: schema,
+    onSubmit: async (values, { setSubmitting }) => {
       try {
-        await schema.validate(values);
-        setAuthFailed({ status: false, errors: '' });
         const { data } = await axios.post(routes.loginPath(), values);
         localStorage.setItem('userId', JSON.stringify(data));
         auth.logIn();
+        setSubmitting(false);
         history.replace({ pathname: routes.rootPath() });
       } catch (e) {
+        setSubmitting(false);
         const errorMessage = () => {
-          if (e.errors) {
-            return e.errors.join(', ');
-          }
           if (e.request.status === 401) {
             return t('errors.userNoExist');
           }
           return t('errors.defaultError');
         };
-        setAuthFailed({ status: true, errors: errorMessage() });
+        setAuthFailed(errorMessage());
       }
     },
   });
@@ -66,10 +65,14 @@ const LoginPage = () => {
               value={formik.values.username}
               id="username"
               autoComplete="username"
-              isInvalid={authFailed.status}
+              disabled={formik.isSubmitting}
+              isInvalid={(formik.errors.username && formik.touched.username) || authFailed}
               required
               ref={inputRef}
             />
+            <Form.Control.Feedback type="invalid">
+              {t(formik.errors.username)}
+            </Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group className="m-3">
@@ -79,16 +82,17 @@ const LoginPage = () => {
               placeholder={t('authForm.placeholderPass')}
               name="password"
               id="password"
+              disabled={formik.isSubmitting}
               value={formik.values.password}
               onChange={formik.handleChange}
-              isInvalid={authFailed.status}
+              isInvalid={(formik.errors.password && formik.touched.password) || authFailed}
               required
             />
             <Form.Control.Feedback type="invalid">
-              {authFailed.errors}
+              {t(formik.errors.password) || authFailed}
             </Form.Control.Feedback>
           </Form.Group>
-          <Button className="m-3" variant="primary" type="submit">
+          <Button className="m-3" variant="primary" type="submit" disabled={formik.isSubmitting}>
             {t('authForm.login')}
           </Button>
         </Form>
