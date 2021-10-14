@@ -1,5 +1,10 @@
 import _ from 'lodash';
-import { Col, Form, Row, Button } from 'react-bootstrap';
+import {
+  Col,
+  Form,
+  Row,
+  Button,
+} from 'react-bootstrap';
 import React, { useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -57,7 +62,7 @@ const Messages = () => {
               <Col className="p-0">
                 <Form.Control
                   data-testid="new-message"
-                  placeholder={t('messages')}
+                  placeholder={t('messages.placeholderMessages')}
                   type="text"
                   name="message"
                   onChange={handleChange}
@@ -68,7 +73,15 @@ const Messages = () => {
                 />
               </Col>
               <Col xs="auto">
-                <Button variant="outline-dark" name="Отправить" type="submit" disabled={values.message === '' || isSubmitting}>Send</Button>
+                <Button
+                  role="button"
+                  variant="outline-dark"
+                  name={t('messages.send')}
+                  type="submit"
+                  disabled={values.message === '' || isSubmitting}
+                >
+                  {t('messages.send')}
+                </Button>
               </Col>
             </Row>
           </form>

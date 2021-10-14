@@ -31,7 +31,10 @@ export default {
       removing: 'Удалить',
       cancel: 'Отменить',
     },
-    messages: 'Ваше сообщение...',
+    messages: {
+      placeholderMessages: 'Ваше сообщение...',
+      send: 'Отправить',
+    },
     errors: {
       notFoundPage: 'Такая страница не найдена Err.404 :(',
       userNoExist: 'Неверные имя пользователя или пароль',
