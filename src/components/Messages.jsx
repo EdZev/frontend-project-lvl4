@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { Col, Form, Row } from 'react-bootstrap';
+import { Col, Form, Row, Button } from 'react-bootstrap';
 import React, { useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -68,9 +68,7 @@ const Messages = () => {
                 />
               </Col>
               <Col xs="auto">
-                <button className="fs-5 rounded" name="Отправить" type="submit" disabled={values.message === '' || isSubmitting}>
-                  Go
-                </button>
+                <Button variant="outline-dark" name="Отправить" type="submit" disabled={values.message === '' || isSubmitting}>Send</Button>
               </Col>
             </Row>
           </form>
