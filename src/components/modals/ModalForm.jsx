@@ -29,7 +29,7 @@ const ModalForm = (props) => {
       .notOneOf(channelNames, 'errors.channelName'),
   });
 
-  const [authFailed, setAuthFailed] = useState({ status: false, errors: '' });
+  const [authFailed, setAuthFailed] = useState(null);
   const inputValue = {
     adding: () => '',
     renaming: () => {
@@ -40,23 +40,16 @@ const ModalForm = (props) => {
 
   const formik = useFormik({
     initialValues: { name: inputValue[type]() },
+    validationSchema: channelSchema,
     onSubmit: async (values, { setSubmitting }) => {
       const { name } = values;
       try {
-        await channelSchema.validate(values);
-        setAuthFailed({ status: false, errors: '' });
         dataSubmit({ id, name });
+        setAuthFailed(null);
       } catch (e) {
-        const errorMessage = () => {
-          if (e.errors) {
-            const [errMessage] = e.errors;
-            return t(errMessage);
-          }
-          return t('errors.defaultError');
-        };
         setSubmitting(false);
         inputField.current.select();
-        setAuthFailed({ status: true, errors: errorMessage() });
+        setAuthFailed(t('errors.defaultError'));
       }
     },
   });
@@ -71,10 +64,10 @@ const ModalForm = (props) => {
           ref={inputField}
           required
           disabled={formik.isSubmitting}
-          isInvalid={authFailed.status}
+          isInvalid={(formik.errors.name && formik.touched.name) || authFailed}
         />
         <Form.Control.Feedback type="invalid">
-          {authFailed.errors}
+          {t(formik.errors.name) || authFailed}
         </Form.Control.Feedback>
       </Form.Group>
       <div className="text-end">
