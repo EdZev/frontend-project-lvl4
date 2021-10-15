@@ -31,7 +31,7 @@ const Chat = () => {
   }, []);
 
   return (
-    <Container className="h-100 my-4 overflow-hidden rounded shadow">
+    <Container className="h-100 my-4 rounded shadow">
       <Row className="h-100 bg-white flex-md-row">
         <ChannelsBox />
         <Messages />

@@ -60,7 +60,7 @@ const Messages = () => {
           handleSubmit,
           isSubmitting,
         }) => (
-          <form onSubmit={handleSubmit} className="form-label">
+          <Form onSubmit={handleSubmit} className="form-label">
             <Row className="align-items-center">
               <Col className="p-0">
                 <Form.Control
@@ -87,7 +87,7 @@ const Messages = () => {
                 </Button>
               </Col>
             </Row>
-          </form>
+          </Form>
         )}
       </Formik>
     );
