@@ -19,7 +19,7 @@ const ModalRemoveChannel = (props) => {
   };
 
   return (
-    <Modal show onHide={hideModal}>
+    <Modal show centered onHide={hideModal}>
       <Modal.Header closeButton>
         <Modal.Title>{t('modals.removeChannel')}</Modal.Title>
       </Modal.Header>

@@ -18,7 +18,7 @@ const ModalRenameChannel = (props) => {
   };
 
   return (
-    <Modal show onHide={hideModal}>
+    <Modal show centered onHide={hideModal}>
       <Modal.Header closeButton>
         <Modal.Title>{t('modals.renameChannel')}</Modal.Title>
       </Modal.Header>

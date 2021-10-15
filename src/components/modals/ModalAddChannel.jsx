@@ -21,7 +21,7 @@ const ModalAddChannel = (props) => {
   };
 
   return (
-    <Modal show onHide={hideModal}>
+    <Modal show centered onHide={hideModal}>
       <Modal.Header closeButton>
         <Modal.Title>{t('modals.addNewChannel')}</Modal.Title>
       </Modal.Header>
