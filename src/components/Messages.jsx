@@ -8,7 +8,7 @@ import {
 import React, { useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { Formik } from 'formik';
+import { useFormik } from 'formik';
 import useServer from '../hooks/useServer.js';
 
 const Messages = () => {
@@ -38,60 +38,50 @@ const Messages = () => {
     useEffect(() => {
       inputText.current.focus();
     }, []);
+    const formik = useFormik({
+      initialValues: { message: '' },
+      onSubmit: ({ message }, { resetForm, setSubmitting }) => {
+        const newMessage = { channelId: currentChannelId, username: userId.username, message };
+        server.newMessage(newMessage, ({ status }) => {
+          if (status === 'ok') {
+            resetForm();
+            setSubmitting(false);
+          }
+        });
+      },
+    });
     return (
-      <Formik
-        initialValues={{ message: '' }}
-        onSubmit={({ message }, { resetForm, setSubmitting }) => {
-          console.log('Tgere was a click!!!');
-          console.log(message);
-          const newMessage = { channelId: currentChannelId, username: userId.username, message };
-          server.newMessage(newMessage, ({ status }) => {
-            if (status === 'ok') {
-              resetForm();
-              setSubmitting(false);
-            }
-          });
-        }}
-      >
-        {({
-          values,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          isSubmitting,
-        }) => (
-          <Form onSubmit={handleSubmit} className="form-label">
-            <Row className="align-items-center">
-              <Col className="p-0">
-                <Form.Control
-                  data-testid="new-message"
-                  placeholder={t('messages.placeholderMessages')}
-                  type="text"
-                  name="message"
-                  onChange={handleChange}
-                  disabled={isSubmitting}
-                  onBlur={handleBlur}
-                  value={values.message}
-                  ref={inputText}
-                />
-              </Col>
-              <Col xs="auto">
-                <Button
-                  role="button"
-                  variant="outline-dark"
-                  name={t('messages.send')}
-                  type="submit"
-                  disabled={values.message === '' || isSubmitting}
-                >
-                  {t('messages.send')}
-                </Button>
-              </Col>
-            </Row>
-          </Form>
-        )}
-      </Formik>
+      <Form onSubmit={formik.handleSubmit} className="form-label">
+        <Row className="align-items-center">
+          <Col className="p-0">
+            <Form.Control
+              data-testid="new-message"
+              placeholder={t('messages.placeholderMessages')}
+              type="text"
+              name="message"
+              onChange={formik.handleChange}
+              disabled={formik.isSubmitting}
+              onBlur={formik.handleBlur}
+              value={formik.values.message}
+              ref={inputText}
+            />
+          </Col>
+          <Col xs="auto">
+            <Button
+              role="button"
+              variant="outline-dark"
+              name={t('messages.send')}
+              type="submit"
+              disabled={formik.values.message === '' || formik.isSubmitting}
+            >
+              {t('messages.send')}
+            </Button>
+          </Col>
+        </Row>
+      </Form>
     );
   };
+
   return (
     <Col className="d-flex flex-column h-100 p-0">
       <div className="bg-light mx-0 mb-4 p-3 shadow-sm small">

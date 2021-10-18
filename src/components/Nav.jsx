@@ -23,7 +23,7 @@ const Nav = () => {
   };
 
   return (
-    <Navbar className="border-bottom bg-white shadow-1 px-0 ">
+    <Navbar className="border-bottom bg-white shadow-1 px-3 ">
       <Container>
         <Navbar.Brand to={routes.rootPath()} as={Link}>
           {t('projectName')}

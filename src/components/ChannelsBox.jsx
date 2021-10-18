@@ -23,7 +23,7 @@ const Channel = (props) => {
   const { id, name, removable } = data;
   const activeChannel = id === currentChannelId;
   const buttonStyle = activeChannel ? 'secondary' : 'light';
-  const channelClassNames = cn('rounded-0', 'text-start', 'text-truncate', 'my-1');
+  const channelClassNames = cn('rounded-0', 'text-left', 'text-truncate', 'my-1');
   return (
     <Dropdown key={id} as={ButtonGroup}>
       <Button
@@ -82,9 +82,9 @@ const ChannelsBox = () => {
   const hideModal = () => setModalInfo({ type: null, id: null });
   const showModal = (type, id = null) => setModalInfo({ type, id });
   return (
-    <Col className="col-4 col-md-2 border-end pt-5 px-0">
-      <div className="d-flex justify-content-between mb-2 ps-4 pe-2 align-text-bottom">
-        <span className="fs-3">{t('channels')}</span>
+    <Col className="col-4 col-md-2 border-right pt-4 px-0">
+      <div className="d-flex justify-content-between mb-2 px-2 align-text-bottom">
+        <h4 className="mb-0 mt-1">{t('channels')}</h4>
         <Button className="border" variant="light" onClick={() => showModal('adding')}>+</Button>
       </div>
       <Channels
